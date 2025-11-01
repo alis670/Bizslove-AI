@@ -1,24 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>BizSlove AI Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bizslove AI — Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<h2>Welcome to BizSlove AI Dashboard 🎯</h2>
-<p>You are logged in ✅</p>
+  <header class="navbar">
+    <h2>Bizslove AI — Dashboard</h2>
+    <div>
+      <button id="btn-logout">Logout</button>
+    </div>
+  </header>
 
-<button onclick="logout()">Logout</button>
+  <main class="container" style="padding-top:100px;max-width:1100px;margin:auto">
+    <section class="card">
+      <h3>Account</h3>
+      <div>Email: <span id="user-email">—</span></div>
+      <div>UID: <span id="user-uid">—</span></div>
+      <div>Subscription: <span id="user-plan">Free</span></div>
+    </section>
 
-<script type="module">
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    <section class="card" style="margin-top:14px">
+      <h3>Excel / CSV Upload & Preview</h3>
+      <input id="file-input" type="file" accept=".xlsx,.xls,.csv" />
+      <div id="excel-preview" style="margin-top:12px;overflow:auto;"></div>
+      <div style="margin-top:10px">
+        <button id="download-csv" class="btn">Download Example CSV</button>
+      </div>
+    </section>
 
-const auth = getAuth();
-window.logout = function() {
-  signOut(auth).then(() => {
-    alert("Logged out ✅");
-    window.location.href = "index.html";
-  });
-};
-</script>
+    <section class="card" style="margin-top:14px">
+      <h3>Business Calculators</h3>
+      <div id="calculators-root"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h3>Google Sheets Log (Apps Script)</h3>
+      <label>Apps Script Web App URL</label>
+      <input id="apps-script-url" placeholder="https://script.google.com/macros/s/XXX/exec" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="btn-send-profile" class="btn">Send my profile to Sheet</button>
+        <button id="btn-check-sheet" class="btn-ghost">Test webhook</button>
+      </div>
+      <div id="sheet-status" class="small-muted" style="margin-top:8px"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h3>Phone OTP (SMS) — optional</h3>
+      <p class="small-muted">Requires Firebase Phone Auth enabled + reCAPTCHA verifier. Use only after setup.</p>
+      <div id="recaptcha-container"></div>
+      <input id="phone-number" placeholder="+923001234567" />
+      <button id="btn-send-otp" class="btn">Send OTP</button>
+      <input id="otp-code" placeholder="123456" style="margin-top:8px" />
+      <button id="btn-verify-otp" class="btn">Verify OTP</button>
+      <div id="otp-status" class="small-muted" style="margin-top:8px"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h3>Chatbot</h3>
+      <p class="small-muted">Chat bubble appears bottom-right (Chatbase).</p>
+      <!-- Chatbase script inserted by chatbase-loader.js -->
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <h3>Admin panel (design)</h3>
+      <p class="small-muted">Client-side toggle for subscription (demo only — in production, admin must verify & write to DB)</p>
+      <input id="admin-email" placeholder="user@example.com" />
+      <button id="btn-admin-activate" class="btn">Activate (demo)</button>
+      <div id="admin-status" class="small-muted" style="margin-top:8px"></div>
+    </section>
+  </main>
+
+  <!-- libs -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <!-- Firebase config / init should already be present in your project (index.js or firebase.js) -->
+  <script type="module" src="dashboard.js"></script>
+  <script type="module" src="chatbase-loader.js"></script>
+  <script type="module" src="phone_auth.js"></script>
 </body>
 </html>
