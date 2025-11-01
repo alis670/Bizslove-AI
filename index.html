@@ -1,23 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Bizslove AI - Login</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bizslove AI - Login</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #0f0f0f;
+        color: #fff;
+    }
+    .container {
+        width: 90%;
+        max-width: 350px;
+        background: #1c1c1c;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 6px;
+        border: none;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 6px;
+        border: none;
+        background: #00c853;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
+<div class="container">
+    <h2>Bizslove AI Login</h2>
 
-<div class="card">
-  <h2>Bizslove AI</h2>
-  <p>Welcome! Login or Create Account</p>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
 
-  <input id="email" type="email" placeholder="Email" />
-  <input id="password" type="password" placeholder="Password" />
+    <button onclick="loginUser()">Login</button>
+    <button onclick="registerUser()">Register</button>
 
-  <button onclick="loginUser()">Login</button>
-  <button class="secondary" onclick="registerUser()">Create Account</button>
+    <br><br>
+
+    <input type="tel" id="phone" placeholder="Phone +92XXXXXXXXXX">
+    <div id="recaptcha-container"></div>
+    <button onclick="sendOTP()">Send OTP</button>
+    <input type="text" id="otp" placeholder="Enter OTP">
+    <button onclick="verifyOTP()">Verify OTP</button>
 </div>
 
-<script type="module" src="auth.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDHvqBobHL7jj-q8t_h9GLjddRvqPmY3hM",
+  authDomain: "bizslove-ai.firebaseapp.com",
+  projectId: "bizslove-ai",
+  storageBucket: "bizslove-ai.firebasestorage.app",
+  messagingSenderId: "865426656421",
+  appId: "1:865426656421:web:9f9a193177d1f7fa8a914c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// ✅ Email Register
+window.registerUser = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => alert("✅ Account created! Please login."))
+    .catch(err => alert(err.message));
+}
+
+// ✅ Email Login
+window.loginUser = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("✅ Login Success");
+      window.location.href = "dashboard.html";
+    })
+    .catch(err => alert(err.message));
+}
+
+// ✅ Phone OTP Send
+window.sendOTP = function () {
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {});
+  const phone = document.getElementById("phone").value;
+  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+    .then(e => {
+      window.confirmationResult = e;
+      alert("📩 OTP Sent!");
+    })
+    .catch(err => alert(err.message));
+}
+
+// ✅ Verify OTP
+window.verifyOTP = function () {
+  const otp = document.getElementById("otp").value;
+  confirmationResult.confirm(otp)
+    .then(() => {
+      alert("✅ Phone Login Success!");
+      window.location.href = "dashboard.html";
+    })
+    .catch(err => alert("❌ Wrong OTP"));
+}
+</script>
+
 </body>
 </html>
