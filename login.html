@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bizslove AI - Login</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.login-container {
+  max-width: 380px;
+  margin: 140px auto;
+  background: rgba(255,255,255,0.08);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #00d9ff;
+}
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  background: #00d9ff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:hover {
+  background: #007bb8;
+}
+#message {
+  margin-top: 12px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+  <h2>Welcome to Bizslove AI</h2>
+
+  <input type="email" id="email" placeholder="Enter Email" required>
+  <input type="password" id="password" placeholder="Enter Password" required>
+
+  <button onclick="loginUser()">Login</button>
+  <button onclick="registerUser()" style="margin-top:10px;background:#111;color:#fff;border:1px solid #00d9ff;">Register</button>
+
+  <p id="message"></p>
+</div>
+
+<script type="module" src="firebase.js"></script>
+</body>
+</html>
