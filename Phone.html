@@ -1,0 +1,12 @@
+<h2>Phone Login</h2>
+
+<input type="text" id="phone" placeholder="+92xxxxxxxxxx"><br>
+<div id="recaptcha-container"></div><br>
+
+<button onclick="sendOTP()">Send OTP</button><br><br>
+
+<input type="text" id="otp" placeholder="Enter OTP"><br>
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="Phone_auth.js"></script>
