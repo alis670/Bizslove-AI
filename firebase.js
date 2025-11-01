@@ -1,13 +1,16 @@
+// ✅ Import Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  getAuth, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  RecaptchaVerifier, 
+  signInWithPhoneNumber 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// ✅ Firebase Config
+// ✅ Your Firebase config (paste your keys here)
 const firebaseConfig = {
-  apiKey: "AIzaSyDHvqBobHL7jj-q8t_h9GLjddRvqPmY3hM",
+  apiKey: "YOUR_API_KEY",
   authDomain: "bizslove-ai.firebaseapp.com",
   projectId: "bizslove-ai",
   storageBucket: "bizslove-ai.firebasestorage.app",
@@ -19,25 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// ✅ Register User
-window.registerUser = function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(() => alert("✅ Account created — now login"))
-    .catch(err => alert(err.message));
-};
-
-// ✅ Login User
-window.loginUser = function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      alert("✅ Login Successful");
-      window.location.href = "dashboard.html";
-    })
-    .catch(err => alert(err.message));
-};
+// Make available globally
+window.auth = auth;
+window.RecaptchaVerifier = RecaptchaVerifier;
+window.signInWithPhoneNumber = signInWithPhoneNumber;
