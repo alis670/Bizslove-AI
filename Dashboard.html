@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BizsLove AI - Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f5ff;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #4a6cf7;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #3458e0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Welcome to BizsLove AI 🎯</h2>
+  <p>Dashboard Page</p>
+  <button onclick="logoutUser()">Logout</button>
+</div>
+
+<script type="module">
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const auth = getAuth();
+
+// ✅ Logout Function
+window.logoutUser = function() {
+  signOut(auth)
+    .then(() => {
+      alert("Logged out ✅");
+      window.location.href = "index.html";
+    });
+}
+
+// ✅ Prevent access without login
+auth.onAuthStateChanged(user => {
+  if (!user) window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>
